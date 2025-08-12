@@ -3,6 +3,9 @@ package com.multiplan.clm_oci_patient.util;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
 import com.oracle.bmc.objectstorage.requests.GetObjectRequest;
 import com.oracle.bmc.objectstorage.responses.GetObjectResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +14,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Configuration
 public class PatientDBWalletDetails {
 
+    @Autowired
+    ResourceLoader resourceLoader;
     private final ObjectStorageClient objectStorageClient;
 
     //identifier for object storage
@@ -24,16 +30,7 @@ public class PatientDBWalletDetails {
     }
 
     public void downLoadAndExtract(String bucketName, String objectName, String target) throws IOException {
-        GetObjectResponse response = objectStorageClient.getObject(GetObjectRequest.builder().bucketName(bucketName).
-                namespaceName(nameSpace).objectName(objectName).build());
 
-        try(InputStream inputStream = response.getInputStream()){
-            Path path= Paths.get(target, "Wallet_Pocclaimsdb.zip");
-            Files.createDirectories(Paths.get(target));
-            Files.copy(inputStream,path, StandardCopyOption.REPLACE_EXISTING);
-            unzip(path.toString(),target);
-            Files.delete(path);
-        }
     }
 
     private void unzip(String path, String target) {
