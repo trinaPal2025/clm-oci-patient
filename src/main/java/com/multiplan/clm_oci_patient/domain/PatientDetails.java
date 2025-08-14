@@ -1,19 +1,27 @@
 package com.multiplan.clm_oci_patient.domain;
 
-import com.multiplan.clm_oci_patient.common.Gender;
-import com.multiplan.clm_oci_patient.common.RelationShipCode;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-@Table(name="PATIENTDETAILS")
+@Table(name = "PATIENTDETAILS")
 @Entity
-public class PatientDetails {
+public class PatientDetails implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PATIENT_ID")
+    private Long patient_Id;
+
+    @Column(name = "CITYNAME")
+    private String cityName;
+
+    @Column(name = "STATENAME")
+    private String statemName;
 
     @Column(name = "PATIENTID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID patientId;
+
 
     @Column(name = "FIRSTNAME")
     private String firstName;
@@ -26,9 +34,12 @@ public class PatientDetails {
     @Column(name = "ACCOUNTNUMBER")
     private String accountNumber;
     @Column(name = "GENDER")
-    private Gender gender;
+    private String gender;
 
     @Column(name = "RELATIONSHIPCODE")
 
-    private RelationShipCode relationShipCode;
+    private Long relationShipCode;
+
+    @Column(name = "ADDRESSLINE1")
+    private String addressline1;
 }

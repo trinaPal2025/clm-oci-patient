@@ -1,16 +1,21 @@
 package com.multiplan.clm_oci_patient.config;
 
-import com.oracle.bmc.auth.InstancePrincipalsAuthenticationDetailsProvider;
+import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.secrets.SecretsClient;
 import com.oracle.bmc.secrets.model.Base64SecretBundleContentDetails;
 import com.oracle.bmc.secrets.requests.GetSecretBundleRequest;
 import com.oracle.bmc.secrets.responses.GetSecretBundleResponse;
+import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
+@Component
 public class VaultService {
     private final SecretsClient secretsClient;
 
-    public VaultService() {
-        var provider = InstancePrincipalsAuthenticationDetailsProvider.builder().build();
+    public VaultService() throws IOException {
+        var provider =  new ConfigFileAuthenticationDetailsProvider("C:\\Users\\guruprasad.b\\.oci\\config",
+                "DEFAULT");
         this.secretsClient = SecretsClient.builder().build(provider);
     }
 
